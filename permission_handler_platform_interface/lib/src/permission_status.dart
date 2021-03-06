@@ -23,6 +23,8 @@ enum PermissionStatus {
   /// permission status in the settings.
   /// *Only supported on Android.*
   permanentlyDenied,
+
+  undetermined,
 }
 
 extension PermissionStatusValue on PermissionStatus {
@@ -40,6 +42,8 @@ extension PermissionStatusValue on PermissionStatus {
         return 5;
       case PermissionStatus.limited:
         return 4;
+      case PermissionStatus.undetermined:
+        return 5;
       default:
         throw UnimplementedError();
     }
@@ -76,6 +80,8 @@ extension PermissionStatusGetters on PermissionStatus {
   bool get isPermanentlyDenied => this == PermissionStatus.permanentlyDenied;
 
   bool get isLimited => this == PermissionStatus.limited;
+
+  bool get isUndetermined => this == PermissionStatus.undetermined;
 }
 
 extension FuturePermissionStatusGetters on Future<PermissionStatus> {
@@ -99,4 +105,8 @@ extension FuturePermissionStatusGetters on Future<PermissionStatus> {
       (await this).isPermanentlyDenied;
 
   Future<bool> get isLimited async => (await this).isLimited;
+
+  /// This Permission has never been requested
+  /// *Only supported on Android.*
+  Future<bool> get isUndetermined async => (await this).isUndetermined;
 }
